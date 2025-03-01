@@ -1,15 +1,15 @@
 -- Users
 INSERT INTO users (email, name, hashed_password, avatar_url, created_at, updated_at) VALUES
-('admin@example.com', 'Admin User', '$2a$10$EKlcR.QlnAYkB9bqUX7pQerVBgBh/xObhU6HdLyt1Cl8CyNjYYGFS', 'https://randomuser.me/api/portraits/men/1.jpg', NOW() - INTERVAL '30 days', NOW()),
-('john.doe@example.com', 'John Doe', '$2a$10$9fCguFzUn1ae/wFf.5zRQO4h78yS5atIHFIr5/aYuPZMjMcLQJ.6m', 'https://randomuser.me/api/portraits/men/2.jpg', NOW() - INTERVAL '25 days', NOW()),
-('jane.smith@example.com', 'Jane Smith', '$2a$10$GBSaBRxwXHZG9n0u.TVHKepxjaI0CO2kGVVZtEkRVIj/WQndSUMFG', 'https://randomuser.me/api/portraits/women/3.jpg', NOW() - INTERVAL '22 days', NOW()),
-('michael.brown@example.com', 'Michael Brown', '$2a$10$9EhevrbVZGc0tQy0KGMBIeiSGhXLAZnxJUIEMc5QOiOZ4XpUH3UdG', 'https://randomuser.me/api/portraits/men/4.jpg', NOW() - INTERVAL '20 days', NOW()),
-('emily.johnson@example.com', 'Emily Johnson', '$2a$10$d5OG/Q3J3slcJAYN1Nl1UeqFKfycHvTRDKMUgJy.ogThW.UPqjzGu', 'https://randomuser.me/api/portraits/women/5.jpg', NOW() - INTERVAL '18 days', NOW()),
-('david.wilson@example.com', 'David Wilson', '$2a$10$w8J28HKl5S730MFcgzZhA.mN9T3I2J27YPm5uJvxZO0EBF87riSLO', 'https://randomuser.me/api/portraits/men/6.jpg', NOW() - INTERVAL '15 days', NOW()),
-('sarah.davis@example.com', 'Sarah Davis', '$2a$10$n6TFQTedLpuIOhyaUZSWTO4xVdL3PtPDRbpQsC1TM1qcm.wCUf8LW', 'https://randomuser.me/api/portraits/women/7.jpg', NOW() - INTERVAL '12 days', NOW()),
-('robert.miller@example.com', 'Robert Miller', '$2a$10$TGR0vpe7GNkGbT.ixGKqueR.WgpbP51Rr/E3ImTFW9f/qQfJYX8Qq', 'https://randomuser.me/api/portraits/men/8.jpg', NOW() - INTERVAL '10 days', NOW()),
-('lisa.taylor@example.com', 'Lisa Taylor', '$2a$10$qVQ50ZVqQ0VCIGJzR0rokuCqNWw.qlNiOKMIjrS.OgKUcCB/CPRAK', 'https://randomuser.me/api/portraits/women/9.jpg', NOW() - INTERVAL '8 days', NOW()),
-('james.anderson@example.com', 'James Anderson', '$2a$10$QHUF56W4yg3CqO92sXSr8.fGzNhgAHGhSyRXqjLWFYSvvFU08XG1G', 'https://randomuser.me/api/portraits/men/10.jpg', NOW() - INTERVAL '5 days', NOW());
+('admin@example.com', 'Admin User', '$2a$10$Kr41RD.gsFP4kCc392MxQue2KCa6Oc268wZQyZE37hGbNVnblg4n.', 'https://randomuser.me/api/portraits/men/1.jpg', NOW() - INTERVAL '30 days', NOW()),
+('john.doe@example.com', 'John Doe', '$2a$10$Kr41RD.gsFP4kCc392MxQue2KCa6Oc268wZQyZE37hGbNVnblg4n.', 'https://randomuser.me/api/portraits/men/2.jpg', NOW() - INTERVAL '25 days', NOW()),
+('jane.smith@example.com', 'Jane Smith', '$2a$10$Kr41RD.gsFP4kCc392MxQue2KCa6Oc268wZQyZE37hGbNVnblg4n.', 'https://randomuser.me/api/portraits/women/3.jpg', NOW() - INTERVAL '22 days', NOW()),
+('michael.brown@example.com', 'Michael Brown', '$2a$10$Kr41RD.gsFP4kCc392MxQue2KCa6Oc268wZQyZE37hGbNVnblg4n.', 'https://randomuser.me/api/portraits/men/4.jpg', NOW() - INTERVAL '20 days', NOW()),
+('emily.johnson@example.com', 'Emily Johnson', '$2a$10$Kr41RD.gsFP4kCc392MxQue2KCa6Oc268wZQyZE37hGbNVnblg4n.', 'https://randomuser.me/api/portraits/women/5.jpg', NOW() - INTERVAL '18 days', NOW()),
+('david.wilson@example.com', 'David Wilson', '$2a$10$Kr41RD.gsFP4kCc392MxQue2KCa6Oc268wZQyZE37hGbNVnblg4n.', 'https://randomuser.me/api/portraits/men/6.jpg', NOW() - INTERVAL '15 days', NOW()),
+('sarah.davis@example.com', 'Sarah Davis', '$2a$10$Kr41RD.gsFP4kCc392MxQue2KCa6Oc268wZQyZE37hGbNVnblg4n.', 'https://randomuser.me/api/portraits/women/7.jpg', NOW() - INTERVAL '12 days', NOW()),
+('robert.miller@example.com', 'Robert Miller', '$2a$10$Kr41RD.gsFP4kCc392MxQue2KCa6Oc268wZQyZE37hGbNVnblg4n.', 'https://randomuser.me/api/portraits/men/8.jpg', NOW() - INTERVAL '10 days', NOW()),
+('lisa.taylor@example.com', 'Lisa Taylor', '$2a$10$Kr41RD.gsFP4kCc392MxQue2KCa6Oc268wZQyZE37hGbNVnblg4n.', 'https://randomuser.me/api/portraits/women/9.jpg', NOW() - INTERVAL '8 days', NOW()),
+('james.anderson@example.com', 'James Anderson', '$2a$10$Kr41RD.gsFP4kCc392MxQue2KCa6Oc268wZQyZE37hGbNVnblg4n.', 'https://randomuser.me/api/portraits/men/10.jpg', NOW() - INTERVAL '5 days', NOW());
 
 -- Roles
 INSERT INTO roles (name, description) VALUES
