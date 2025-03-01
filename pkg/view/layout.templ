@@ -13,22 +13,87 @@ templ Layout(title string, showNav bool, user UserProfile) {
             <style>[x-cloak] { display: none !important; }</style>
         </head>
         <body>
-            <div x-data="{ mobileMenuOpen: false }" class="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
+            <div x-data="{ 
+                mobileMenuOpen: false,
+                isCurrentPage(href) {
+                    return window.location.pathname === href
+                }
+            }" class="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
                 if showNav {
                     <!-- Desktop Sidebar -->
                     <div class="fixed inset-y-0 left-0 w-64 max-lg:hidden">
                         <nav class="flex h-full min-h-0 flex-col">
-                            <div class="flex-shrink-0 px-4 pt-3">
-                                <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">Supportal</a>
-                            </div>
-                            <nav class="flex-1 px-2 pt-4">
-                                <div class="space-y-1">
-                                    <a href="/dashboard" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                                        Home
-                                    </a>
-                                    <!-- Add more navigation items here -->
+                            @SidebarHeader(TeamProfile{
+                                Name: "Supportal",
+                                AvatarURL: "/assets/img/logo.svg",
+                            })
+                            <div class="flex flex-1 flex-col overflow-y-auto p-4 [&>[data-slot=section]+[data-slot=section]]:mt-8">
+                                <!-- Desktop Navigation -->
+                                <div data-slot="section" class="flex flex-col gap-0.5">
+                                    <span class="relative">
+                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/dashboard')" x-cloak></span>
+                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/dashboard">
+                                            <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
+                                                <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span class="truncate">Home</span>
+                                        </a>
+                                    </span>
+                                    <span class="relative">
+                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/tickets')" x-cloak></span>
+                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/tickets">
+                                            <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
+                                                <path d="M10.362 1.093a.75.75 0 0 0-.724 0L2.648 5.066a.75.75 0 0 0 0 1.32l6.5 3.577a.75.75 0 0 0 .72 0l6.5-3.577a.75.75 0 0 0 0-1.32l-6.006-3.973Z" />
+                                                <path d="M2.648 8.462a.75.75 0 0 0-1.14.646v5.392a.75.75 0 0 0 .372.648l6.5 3.577a.75.75 0 0 0 .72 0l6.5-3.577a.75.75 0 0 0 .372-.648V9.108a.75.75 0 0 0-1.14-.646l-5.553 3.254a2.75 2.75 0 0 1-2.778 0L2.648 8.462Z" />
+                                            </svg>
+                                            <span class="truncate">Tickets</span>
+                                        </a>
+                                    </span>
+                                    <span class="relative">
+                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/customers')" x-cloak></span>
+                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/customers">
+                                            <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
+                                                <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+                                            </svg>
+                                            <span class="truncate">Customers</span>
+                                        </a>
+                                    </span>
+                                    <span class="relative">
+                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/knowledge-base')" x-cloak></span>
+                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/knowledge-base">
+                                            <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
+                                                <path d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
+                                            </svg>
+                                            <span class="truncate">Knowledge Base</span>
+                                        </a>
+                                    </span>
+                                    <span class="relative">
+                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/reports')" x-cloak></span>
+                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/reports">
+                                            <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
+                                                <path d="M12 9a1 1 0 0 1-1-1V3c0-.553.45-1.008.997-.93a7.004 7.004 0 0 1 5.933 5.933c.078.547-.378.997-.93.997h-5Z" />
+                                                <path d="M8.003 4.07C8.55 3.992 9 4.447 9 5v5a1 1 0 0 0 1 1h5c.552 0 1.008.45.93.997A7.001 7.001 0 0 1 2 11a7.002 7.002 0 0 1 6.003-6.93Z" />
+                                            </svg>
+                                            <span class="truncate">Reports</span>
+                                        </a>
+                                    </span>
+                                    <span class="relative">
+                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/settings')" x-cloak></span>
+                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/settings">
+                                            <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
+                                                <path fill-rule="evenodd" d="M8.34 1.804A1 1 0 0 1 9.32 1h1.36a1 1 0 0 1 .98.804l.295 1.473c.497.144.971.342 1.416.587l1.25-.834a1 1 0 0 1 1.262.125l.962.962a1 1 0 0 1 .125 1.262l-.834 1.25c.245.445.443.919.587 1.416l1.473.294a1 1 0 0 1 .804.98v1.361a1 1 0 0 1-.804.98l-1.473.295a6.95 6.95 0 0 1-.587 1.416l.834 1.25a1 1 0 0 1-.125 1.262l-.962.962a1 1 0 0 1-1.262.125l-1.25-.834a6.953 6.953 0 0 1-1.416.587l-.294 1.473a1 1 0 0 1-.98.804H9.32a1 1 0 0 1-.98-.804l-.295-1.473a6.957 6.957 0 0 1-1.416-.587l-1.25.834a1 1 0 0 1-1.262-.125l-.962-.962a1 1 0 0 1-.125-1.262l.834-1.25a6.957 6.957 0 0 1-.587-1.416l-1.473-.294A1 1 0 0 1 1 10.68V9.32a1 1 0 0 1 .804-.98l1.473-.295c.144-.497.342-.971.587-1.416l-.834-1.25a1 1 0 0 1 .125-1.262l.962-.962A1 1 0 0 1 5.38 3.032l1.25.834a6.957 6.957 0 0 1 1.416-.587l.294-1.473ZM10 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" clip-rule="evenodd" />
+                                            </svg>
+                                            <span class="truncate">Settings</span>
+                                        </a>
+                                    </span>
                                 </div>
-                            </nav>
+                            </div>
                             <div class="max-lg:hidden flex flex-col border-t border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5">
                                 @SidebarFooter(user)
                             </div>
@@ -74,15 +139,30 @@ templ Layout(title string, showNav bool, user UserProfile) {
                                     </svg>
                                 </button>
                             </div>
-                            <div class="px-4 pt-3">
-                                <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">Supportal</a>
-                            </div>
+                            @SidebarHeader(TeamProfile{
+                                Name: "Supportal",
+                                AvatarURL: "/assets/img/logo.svg",
+                            })
                             <nav class="flex-1 px-2 pt-4">
                                 <div class="space-y-1">
-                                    <a href="/dashboard" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                                    <a href="/dashboard" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/dashboard')" x-cloak>
                                         Home
                                     </a>
-                                    <!-- Add more navigation items here -->
+                                    <a href="/tickets" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/tickets')" x-cloak>
+                                        Tickets
+                                    </a>
+                                    <a href="/customers" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/customers')" x-cloak>
+                                        Customers
+                                    </a>
+                                    <a href="/knowledge-base" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/knowledge-base')" x-cloak>
+                                        Knowledge Base
+                                    </a>
+                                    <a href="/reports" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/reports')" x-cloak>
+                                        Reports
+                                    </a>
+                                    <a href="/settings" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/settings')" x-cloak>
+                                        Settings
+                                    </a>
                                 </div>
                             </nav>
                             <div class="border-t border-gray-200 dark:border-gray-700 p-2">

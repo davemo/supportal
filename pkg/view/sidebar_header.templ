@@ -1,0 +1,57 @@
+package view
+
+type TeamProfile struct {
+	Name      string
+	AvatarURL string
+}
+
+templ SidebarHeader(team TeamProfile) {
+	<div class="flex flex-col border-b border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5">
+		<div
+			x-data="{ open: false }"
+			@click.away="open = false"
+			class="relative"
+		>
+			<button
+				@click="open = !open"
+				class="cursor-default flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 sm:py-2 sm:text-sm/5 *:data-[slot=icon]:size-6 *:data-[slot=icon]:shrink-0 *:data-[slot=icon]:fill-zinc-500 sm:*:data-[slot=icon]:size-5 *:last:data-[slot=icon]:ml-auto *:last:data-[slot=icon]:size-5 sm:*:last:data-[slot=icon]:size-4 *:data-[slot=avatar]:-m-0.5 *:data-[slot=avatar]:size-7 *:data-[slot=avatar]:[--ring-opacity:10%] sm:*:data-[slot=avatar]:size-6 data-hover:bg-zinc-950/5 data-hover:*:data-[slot=icon]:fill-zinc-950 data-active:bg-zinc-950/5 data-active:*:data-[slot=icon]:fill-zinc-950 data-current:*:data-[slot=icon]:fill-zinc-950 dark:text-white dark:*:data-[slot=icon]:fill-zinc-400 dark:data-hover:bg-white/5 dark:data-hover:*:data-[slot=icon]:fill-white dark:data-active:bg-white/5 dark:data-active:*:data-[slot=icon]:fill-white dark:data-current:*:data-[slot=icon]:fill-white"
+			>
+				<span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
+				<span data-slot="avatar" class="inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1 outline -outline-offset-1 outline-black/(--ring-opacity) dark:outline-white/(--ring-opacity) rounded-full *:rounded-full">
+					if team.AvatarURL != "" {
+						<img class="size-full" src={ team.AvatarURL } alt="" />
+					} else {
+						<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gray-100 text-sm font-medium uppercase text-gray-900 dark:bg-zinc-800 dark:text-white">
+							{ team.Name[:1] }
+						</div>
+					}
+				</span>
+				<span class="truncate">{ team.Name }</span>
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+					<path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/>
+				</svg>
+			</button>
+
+			<!-- Dropdown menu -->
+			<div
+				x-cloak
+				class="absolute top-full left-0 z-10 mt-2 w-64 rounded-xl p-1 bg-white/75 backdrop-blur-xl dark:bg-zinc-800/75 ring-1 shadow-lg ring-zinc-950/10 dark:ring-white/10 dark:ring-inset transition-all duration-200 ease-out"
+				:class="{ 'invisible translate-y-1 opacity-0': !open, 'visible translate-y-0 opacity-100': open }"
+			>
+				<a href="/teams/manage" class="group flex items-center gap-2.5 rounded-lg px-3.5 py-2.5 text-sm text-zinc-950 hover:bg-blue-500 hover:text-white dark:text-white sm:px-3 sm:py-1.5">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 text-zinc-500 group-hover:text-white dark:text-zinc-400 sm:h-4 sm:w-4">
+						<path fill-rule="evenodd" d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-5-2a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM8 9c-1.825 0-3.422.977-4.295 2.437A5.49 5.49 0 0 0 8 13.5a5.49 5.49 0 0 0 4.294-2.063A4.997 4.997 0 0 0 8 9Z" clip-rule="evenodd"/>
+					</svg>
+					Team settings
+				</a>
+				<div class="mx-3.5 my-1 h-px bg-zinc-950/5 dark:bg-white/10 sm:mx-3"></div>
+				<a href="/teams/switch" class="group flex items-center gap-2.5 rounded-lg px-3.5 py-2.5 text-sm text-zinc-950 hover:bg-blue-500 hover:text-white dark:text-white sm:px-3 sm:py-1.5">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 text-zinc-500 group-hover:text-white dark:text-zinc-400 sm:h-4 sm:w-4">
+						<path fill-rule="evenodd" d="M8.5 1.709a.75.75 0 0 0-1 0 8.963 8.963 0 0 1-4.84 2.217.75.75 0 0 0-.654.72 10.499 10.499 0 0 0 5.647 9.672.75.75 0 0 0 .694-.001 10.499 10.499 0 0 0 5.647-9.672.75.75 0 0 0-.654-.719A8.963 8.963 0 0 1 8.5 1.71Zm2.34 5.504a.75.75 0 0 0-1.18-.926L7.394 9.17l-1.156-.99a.75.75 0 1 0-.976 1.138l1.75 1.5a.75.75 0 0 0 1.078-.106l2.75-3.5Z" clip-rule="evenodd"/>
+					</svg>
+					Switch team
+				</a>
+			</div>
+		</div>
+	</div>
+}

@@ -15,7 +15,7 @@ templ SidebarFooter(user UserProfile) {
 		>
 			<button
 				@click="open = !open"
-				class="group flex w-full items-center gap-3 rounded-md px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white"
+				class="group flex w-full items-center gap-3 rounded-md px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white text-left"
 			>
 				<span class="flex min-w-0 items-center gap-3">
 					if user.AvatarURL != "" {
@@ -46,28 +46,32 @@ templ SidebarFooter(user UserProfile) {
 			<!-- Dropdown menu -->
 			<div
 				x-cloak
-				class="absolute bottom-full left-0 z-10 mb-2 w-64 rounded-lg bg-white py-2 shadow-lg ring-1 ring-black/5 dark:bg-zinc-800 dark:ring-white/5 transition-all duration-200 ease-out"
+				class="absolute bottom-full left-0 z-10 mb-2 w-64 rounded-xl p-1 bg-white/75 backdrop-blur-xl dark:bg-zinc-800/75 ring-1 shadow-lg ring-zinc-950/10 dark:ring-white/10 dark:ring-inset transition-all duration-200 ease-out"
 				:class="{ 'invisible translate-y-1 opacity-0': !open, 'visible translate-y-0 opacity-100': open }"
 			>
-				<a href="/profile" class="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-zinc-700/50">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="mr-3 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400">
-						<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+				<a href="/profile" class="group flex items-center gap-2.5 rounded-lg px-3.5 py-2.5 text-sm text-zinc-950 hover:bg-blue-500 hover:text-white dark:text-white sm:px-3 sm:py-1.5">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 text-zinc-500 group-hover:text-white dark:text-zinc-400 sm:h-4 sm:w-4">
+						<path fill-rule="evenodd" d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-5-2a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM8 9c-1.825 0-3.422.977-4.295 2.437A5.49 5.49 0 0 0 8 13.5a5.49 5.49 0 0 0 4.294-2.063A4.997 4.997 0 0 0 8 9Z" clip-rule="evenodd"/>
 					</svg>
 					My account
 				</a>
-				<div class="my-1 h-px bg-gray-100 dark:bg-zinc-700"></div>
-				<a href="#" class="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-zinc-700/50">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="mr-3 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400">
-						<path d="M8 1a4.5 4.5 0 0 0-1.736 8.657A1.5 1.5 0 0 0 6.25 11v.5c0 .966.784 1.75 1.75 1.75h.5a.75.75 0 0 1 0 1.5h-.5A3.25 3.25 0 0 1 4.75 11.5V11h-.25A4.5 4.5 0 0 0 8 1Z" />
-						<path d="M6.5 14.25A.75.75 0 0 1 7.25 15h1.5a.75.75 0 0 1 0-1.5h-1.5a.75.75 0 0 1-.75.75ZM8 9a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" />
+				<div class="mx-3.5 my-1 h-px bg-zinc-950/5 dark:bg-white/10 sm:mx-3"></div>
+				<a href="#" class="group flex items-center gap-2.5 rounded-lg px-3.5 py-2.5 text-sm text-zinc-950 hover:bg-blue-500 hover:text-white dark:text-white sm:px-3 sm:py-1.5">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 text-zinc-500 group-hover:text-white dark:text-zinc-400 sm:h-4 sm:w-4">
+						<path fill-rule="evenodd" d="M8.5 1.709a.75.75 0 0 0-1 0 8.963 8.963 0 0 1-4.84 2.217.75.75 0 0 0-.654.72 10.499 10.499 0 0 0 5.647 9.672.75.75 0 0 0 .694-.001 10.499 10.499 0 0 0 5.647-9.672.75.75 0 0 0-.654-.719A8.963 8.963 0 0 1 8.5 1.71Zm2.34 5.504a.75.75 0 0 0-1.18-.926L7.394 9.17l-1.156-.99a.75.75 0 1 0-.976 1.138l1.75 1.5a.75.75 0 0 0 1.078-.106l2.75-3.5Z" clip-rule="evenodd"/>
+					</svg>
+					Privacy policy
+				</a>
+				<a href="#" class="group flex items-center gap-2.5 rounded-lg px-3.5 py-2.5 text-sm text-zinc-950 hover:bg-blue-500 hover:text-white dark:text-white sm:px-3 sm:py-1.5">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 text-zinc-500 group-hover:text-white dark:text-zinc-400 sm:h-4 sm:w-4">
+						<path d="M10.618 10.26c-.361.223-.618.598-.618 1.022 0 .226-.142.43-.36.49A6.006 6.006 0 0 1 8 12c-.569 0-1.12-.08-1.64-.227a.504.504 0 0 1-.36-.491c0-.424-.257-.799-.618-1.021a5 5 0 1 1 5.235 0ZM6.867 13.415a.75.75 0 1 0-.225 1.483 9.065 9.065 0 0 0 2.716 0 .75.75 0 1 0-.225-1.483 7.563 7.563 0 0 1-2.266 0Z"/>
 					</svg>
 					Share feedback
 				</a>
-				<div class="my-1 h-px bg-gray-100 dark:bg-zinc-700"></div>
-				<a href="/auth/logout" class="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-zinc-700/50">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="mr-3 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400">
-						<path d="M11.25 2A2.75 2.75 0 0 1 14 4.75v6.5A2.75 2.75 0 0 1 11.25 14h-3a2.75 2.75 0 0 1-2.75-2.75v-.5a.75.75 0 0 1 1.5 0v.5c0 .69.56 1.25 1.25 1.25h3c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25h-3C7.56 3.5 7 4.06 7 4.75v.5a.75.75 0 0 1-1.5 0v-.5A2.75 2.75 0 0 1 8.25 2h3Z" />
-						<path d="M7.97 6.28a.75.75 0 0 1 1.06-1.06l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 1 1-1.06-1.06l.97-.97H2.75a.75.75 0 0 1 0-1.5h6.19l-.97-.97Z" />
+				<div class="mx-3.5 my-1 h-px bg-zinc-950/5 dark:bg-white/10 sm:mx-3"></div>
+				<a href="/auth/logout" class="group flex items-center gap-2.5 rounded-lg px-3.5 py-2.5 text-sm text-zinc-950 hover:bg-blue-500 hover:text-white dark:text-white sm:px-3 sm:py-1.5">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 text-zinc-500 group-hover:text-white dark:text-zinc-400 sm:h-4 sm:w-4">
+						<path fill-rule="evenodd" d="M2 4.75A2.75 2.75 0 0 1 4.75 2h3a2.75 2.75 0 0 1 2.75 2.75v.5a.75.75 0 0 1-1.5 0v-.5c0-.69-.56-1.25-1.25-1.25h-3c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h3c.69 0 1.25-.56 1.25-1.25v-.5a.75.75 0 0 1 1.5 0v.5A2.75 2.75 0 0 1 7.75 14h-3A2.75 2.75 0 0 1 2 11.25v-6.5Zm9.47.47a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 1 1-1.06-1.06l.97-.97H5.25a.75.75 0 0 1 0-1.5h7.19l-.97-.97a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/>
 					</svg>
 					Sign out
 				</a>
