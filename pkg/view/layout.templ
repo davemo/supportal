@@ -2,7 +2,7 @@ package view
 
 templ Layout(title string, showNav bool, user UserProfile) {
     <!DOCTYPE html>
-    <html lang="en" class="h-full">
+    <html lang="en" class="text-zinc-950 antialiased lg:bg-zinc-100 dark:bg-zinc-900 dark:text-white dark:lg:bg-zinc-950">
         <head>
             <meta charset="UTF-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -12,16 +12,16 @@ templ Layout(title string, showNav bool, user UserProfile) {
             <script src="https://unpkg.com/alpinejs" defer></script>
             <style>[x-cloak] { display: none !important; }</style>
         </head>
-        <body class="h-full">
+        <body>
             <div x-data="{ mobileMenuOpen: false }" class="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
                 if showNav {
                     <!-- Desktop Sidebar -->
                     <div class="fixed inset-y-0 left-0 w-64 max-lg:hidden">
-                        <div class="flex h-full flex-col rounded-r-lg bg-white ring-1 shadow-xs ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10 p-4">
-                            <div class="flex-shrink-0 pb-4">
+                        <nav class="flex h-full min-h-0 flex-col">
+                            <div class="flex-shrink-0 px-4 pt-3">
                                 <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">Supportal</a>
                             </div>
-                            <nav class="flex-1">
+                            <nav class="flex-1 px-2 pt-4">
                                 <div class="space-y-1">
                                     <a href="/dashboard" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                                         Home
@@ -29,14 +29,14 @@ templ Layout(title string, showNav bool, user UserProfile) {
                                     <!-- Add more navigation items here -->
                                 </div>
                             </nav>
-                            <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <div class="max-lg:hidden flex flex-col border-t border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5">
                                 @SidebarFooter(user)
                             </div>
-                        </div>
+                        </nav>
                     </div>
 
                     <!-- Mobile Header -->
-                    <header class="flex items-center px-4 lg:hidden bg-white dark:bg-zinc-900 border-b dark:border-zinc-800">
+                    <header class="flex items-center px-4 lg:hidden">
                         <div class="py-2.5">
                             <button 
                                 @click="mobileMenuOpen = !mobileMenuOpen"
@@ -51,7 +51,7 @@ templ Layout(title string, showNav bool, user UserProfile) {
                                 </svg>
                             </button>
                         </div>
-                        <div class="min-w-0 flex-1 px-2">
+                        <div class="min-w-0 flex-1">
                             <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">Supportal</a>
                         </div>
                     </header>
@@ -59,14 +59,25 @@ templ Layout(title string, showNav bool, user UserProfile) {
                     <!-- Mobile Sidebar -->
                     <div 
                         x-cloak
-                        class="fixed inset-y-0 left-0 w-64 lg:hidden z-50 transform transition-all duration-300 ease-in-out"
-                        :class="mobileMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0 pointer-events-none'"
+                        class="fixed inset-y-0 w-full max-w-80 p-2 z-50 transition duration-300 ease-in-out"
+                        :class="mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'"
                     >
-                        <div class="flex h-full flex-col rounded-r-lg bg-white ring-1 shadow-xs ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10 p-4">
-                            <div class="flex-shrink-0 pb-4">
+                        <div class="flex h-full flex-col rounded-lg bg-white ring-1 shadow-xs ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10">
+                            <div class="-mb-3 px-4 pt-3">
+                                <button 
+                                    @click="mobileMenuOpen = false"
+                                    class="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+                                    aria-label="Close navigation"
+                                >
+                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="px-4 pt-3">
                                 <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">Supportal</a>
                             </div>
-                            <nav class="flex-1">
+                            <nav class="flex-1 px-2 pt-4">
                                 <div class="space-y-1">
                                     <a href="/dashboard" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                                         Home
@@ -74,7 +85,7 @@ templ Layout(title string, showNav bool, user UserProfile) {
                                     <!-- Add more navigation items here -->
                                 </div>
                             </nav>
-                            <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <div class="border-t border-gray-200 dark:border-gray-700 p-2">
                                 @SidebarFooter(user)
                             </div>
                         </div>
@@ -90,7 +101,7 @@ templ Layout(title string, showNav bool, user UserProfile) {
                 }
 
                 <!-- Main Content -->
-                <main class={ "flex flex-1 flex-col pb-2", templ.KV("lg:pl-64", showNav), templ.KV("lg:min-w-0 lg:pt-2 lg:pr-2", showNav) }>
+                <main class="flex flex-1 flex-col pb-2 lg:min-w-0 lg:pt-2 lg:pr-2 lg:pl-64">
                     <div class="grow p-6 lg:rounded-lg lg:bg-white lg:p-10 lg:ring-1 lg:shadow-xs lg:ring-zinc-950/5 dark:lg:bg-zinc-900 dark:lg:ring-white/10">
                         <div class="mx-auto max-w-6xl">
                             { children... }
