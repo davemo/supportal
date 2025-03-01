@@ -1,0 +1,23 @@
+.env
+/tmp
+
+# Compiled Go files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go workspace file
+go.work
+
+# Generated files
+*_templ.go
+
+# Air temporary files
+tmp/
+
+# Node modules (if using npm/yarn for frontend tools)
+node_modules/

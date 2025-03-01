@@ -1,0 +1,29 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+cmd = "templ generate && go build -o ./tmp/main cmd/supportal.go"
+bin = "./tmp/main"
+full_bin = "./tmp/main"
+include_ext = ["go", "templ"]
+exclude_dir = ["tmp", "vendor"]
+exclude_regex = ["_templ\\.go$"]
+include_dir = []
+exclude_file = []
+delay = 1000
+stop_on_error = true
+log = "air.log"
+send_interrupt = false
+kill_delay = 500
+
+[log]
+time = true
+
+[color]
+main = "magenta"
+watcher = "cyan"
+build = "yellow"
+runner = "green"
+
+[misc]
+clean_on_exit = true
