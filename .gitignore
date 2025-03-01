@@ -15,6 +15,7 @@ go.work
 
 # Generated files
 *_templ.go
+/assets/css/style.css
 
 # Air temporary files
 tmp/
