@@ -10,62 +10,48 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	_ "github.com/lib/pq"
 	"github.com/joho/godotenv"
+	"supportal/pkg/db"
 	"supportal/pkg/view"
 )
 
-type User struct {
-	ID             int
-	Email          string
-	HashedPassword string
-	Name           string
-}
-
-func authenticateUser(db *sql.DB, email, password string) (*User, error) {
-	log.Printf("Attempting to authenticate user: %s", email)
-	
-	user := &User{}
-	err := db.QueryRow("SELECT id, email, hashed_password, name FROM users WHERE email = $1", email).
-		Scan(&user.ID, &user.Email, &user.HashedPassword, &user.Name)
+// authenticateUser checks if the provided email/password combo is valid
+func authenticateUser(queries *db.Queries, email, password string) (db.User, error) {
+	user, err := queries.GetUserByEmail(context.Background(), email)
 	if err != nil {
-		log.Printf("Database query failed: %v", err)
-		return nil, err
+		if err == sql.ErrNoRows {
+			return db.User{}, fmt.Errorf("invalid email or password")
+		}
+		return db.User{}, fmt.Errorf("error fetching user: %v", err)
 	}
 
-	log.Printf("Found user %s, comparing passwords", user.Name)
-	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPassword), []byte(password))
-	if err != nil {
-		log.Printf("Password comparison failed: %v", err)
-		return nil, err
+	if !user.HashedPassword.Valid {
+		return db.User{}, fmt.Errorf("user has no password set")
 	}
 
-	log.Printf("Authentication successful for user: %s", user.Name)
+	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPassword.String), []byte(password))
+	if err != nil {
+		return db.User{}, fmt.Errorf("invalid email or password")
+	}
+
 	return user, nil
 }
 
-func requireAuth(db *sql.DB, next http.HandlerFunc) http.HandlerFunc {
+// requireAuth is middleware that checks if a user is authenticated
+func requireAuth(queries *db.Queries, next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		cookie, err := r.Cookie("auth")
 		if err != nil {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			http.Redirect(w, r, "/?error=unauthorized", http.StatusSeeOther)
 			return
 		}
 
-		// In a production app, you'd want to verify the cookie value against a session store
-		// For this example, we'll just verify the user exists
-		user := &User{}
-		err = db.QueryRow("SELECT id, email, name FROM users WHERE email = $1", cookie.Value).
-			Scan(&user.ID, &user.Email, &user.Name)
+		user, err := queries.GetUserByEmail(context.Background(), cookie.Value)
 		if err != nil {
-			http.SetCookie(w, &http.Cookie{
-				Name:   "auth",
-				Value:  "",
-				Path:   "/",
-				MaxAge: -1,
-			})
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			http.Redirect(w, r, "/?error=unauthorized", http.StatusSeeOther)
 			return
 		}
 
+		// Store user in context
 		ctx := context.WithValue(r.Context(), "user", user)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	}
@@ -83,37 +69,31 @@ func main() {
 		log.Fatal("DATABASE_URL environment variable is required")
 	}
 	
-	db, err := sql.Open("postgres", dbURL)
+	dbConn, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
+	defer dbConn.Close()
 
 	// Verify database connection
-	if err := db.Ping(); err != nil {
+	if err := dbConn.Ping(); err != nil {
 		log.Fatalf("Unable to connect to database: %v", err)
 	}
+
+	// Create queries instance
+	queries := db.New(dbConn)
 
 	// Create router
 	mux := http.NewServeMux()
 
-	// Serve static files from assets directory
+	// Serve static files
 	fs := http.FileServer(http.Dir("assets"))
 	mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
 
-	// Login page (public)
+	// Login page (/)
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/" {
-			http.NotFound(w, r)
-			return
-		}
-
 		component := view.Login()
-		err := component.Render(context.Background(), w)
-		if err != nil {
-			log.Printf("error rendering login page: %v", err)
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		}
+		component.Render(context.Background(), w)
 	})
 
 	// Handle login form submission
@@ -126,7 +106,7 @@ func main() {
 		email := r.FormValue("email")
 		password := r.FormValue("password")
 
-		user, err := authenticateUser(db, email, password)
+		user, err := authenticateUser(queries, email, password)
 		if err != nil {
 			log.Printf("authentication failed: %v", err)
 			http.Redirect(w, r, "/?error=invalid_credentials", http.StatusSeeOther)
@@ -136,7 +116,7 @@ func main() {
 		// Set auth cookie
 		http.SetCookie(w, &http.Cookie{
 			Name:     "auth",
-			Value:    user.Email, // In production, use a secure session token instead
+			Value:    user.Email,
 			Path:     "/",
 			HttpOnly: true,
 		})
@@ -159,27 +139,19 @@ func main() {
 	})
 
 	// Dashboard (protected)
-	mux.HandleFunc("/dashboard", requireAuth(db, func(w http.ResponseWriter, r *http.Request) {
-		user := r.Context().Value("user").(*User)
-		
-		component := view.Home(user.Name, user.Email)
-		err := component.Render(context.Background(), w)
-		if err != nil {
-			log.Printf("error rendering dashboard: %v", err)
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		}
+	mux.HandleFunc("/dashboard", requireAuth(queries, func(w http.ResponseWriter, r *http.Request) {
+		user := r.Context().Value("user").(db.User)
+		component := view.Home(user.Email, user.Name.String)
+		component.Render(context.Background(), w)
 	}))
 
-	// Determine port from environment or use default
+	// Start server
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "3000"
 	}
-
-	addr := fmt.Sprintf(":%s", port)
-	log.Printf("Starting server on http://localhost%s", addr)
-	
-	if err := http.ListenAndServe(addr, mux); err != nil {
+	log.Printf("Server starting on http://localhost:%s", port)
+	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
 	}
 }
