@@ -61,7 +61,7 @@ func main() {
 	// Dashboard (protected)
 	mux.HandleFunc("/dashboard", auth.RequireAuth(queries, func(w http.ResponseWriter, r *http.Request) {
 		user := r.Context().Value("user").(db.User)
-		component := view.Home(user.Email, user.Name.String)
+		component := view.Home(user.Email, user.Name.String, user.AvatarUrl.String)
 		component.Render(context.Background(), w)
 	}))
 

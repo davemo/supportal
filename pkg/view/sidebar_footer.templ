@@ -1,0 +1,83 @@
+package view
+
+type UserProfile struct {
+	Name      string
+	Email     string
+	AvatarURL string
+}
+
+templ SidebarFooter(user UserProfile) {
+	<div class="max-lg:hidden">
+		<div
+			x-data="{ open: false }"
+			@click.away="open = false"
+			class="relative"
+		>
+			<button
+				@click="open = !open"
+				class="group flex w-full items-center gap-3 rounded-md px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white"
+			>
+				<span class="flex min-w-0 items-center gap-3">
+					if user.AvatarURL != "" {
+						<img src={ user.AvatarURL } alt="" class="h-10 w-10 rounded-md object-cover"/>
+					} else {
+						<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gray-100 text-sm font-medium uppercase text-gray-900 dark:bg-zinc-800 dark:text-white">
+							{ user.Name[:1] }
+						</div>
+					}
+					<span class="min-w-0">
+						<span class="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">{ user.Name }</span>
+						<span class="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
+							{ user.Email }
+						</span>
+					</span>
+				</span>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 16 16"
+					fill="currentColor"
+					class="h-4 w-4 shrink-0 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400"
+					:class="{ 'rotate-180': open }"
+				>
+					<path fill-rule="evenodd" d="M4.22 10.78a.75.75 0 0 1-1.06-1.06l4.25-4.25a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1-1.06 1.06L8 7.12 4.22 10.78Z" clip-rule="evenodd" />
+				</svg>
+			</button>
+
+			<!-- Dropdown menu -->
+			<div
+				x-show="open"
+				x-transition:enter="transition ease-out duration-100"
+				x-transition:enter-start="transform opacity-0 scale-95"
+				x-transition:enter-end="transform opacity-100 scale-100"
+				x-transition:leave="transition ease-in duration-75"
+				x-transition:leave-start="transform opacity-100 scale-100"
+				x-transition:leave-end="transform opacity-0 scale-95"
+				class="absolute bottom-full left-0 z-10 mb-2 w-64 rounded-lg bg-white py-2 shadow-lg ring-1 ring-black/5 dark:bg-zinc-800 dark:ring-white/5"
+				x-cloak
+			>
+				<a href="/profile" class="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-zinc-700/50">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="mr-3 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400">
+						<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+					</svg>
+					My account
+				</a>
+				<div class="my-1 h-px bg-gray-100 dark:bg-zinc-700"></div>
+				<a href="#" class="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-zinc-700/50">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="mr-3 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400">
+						<path d="M8 1a4.5 4.5 0 0 0-1.736 8.657A1.5 1.5 0 0 0 6.25 11v.5c0 .966.784 1.75 1.75 1.75h.5a.75.75 0 0 1 0 1.5h-.5A3.25 3.25 0 0 1 4.75 11.5V11h-.25A4.5 4.5 0 0 0 8 1Z" />
+						<path d="M6.5 14.25A.75.75 0 0 1 7.25 15h1.5a.75.75 0 0 1 0-1.5h-1.5a.75.75 0 0 1-.75.75ZM8 9a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" />
+					</svg>
+					Share feedback
+				</a>
+				<div class="my-1 h-px bg-gray-100 dark:bg-zinc-700"></div>
+				<a href="/auth/logout" class="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-zinc-700/50">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="mr-3 h-4 w-4 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400">
+						<path d="M11.25 2A2.75 2.75 0 0 1 14 4.75v6.5A2.75 2.75 0 0 1 11.25 14h-3a2.75 2.75 0 0 1-2.75-2.75v-.5a.75.75 0 0 1 1.5 0v.5c0 .69.56 1.25 1.25 1.25h3c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25h-3C7.56 3.5 7 4.06 7 4.75v.5a.75.75 0 0 1-1.5 0v-.5A2.75 2.75 0 0 1 8.25 2h3Z" />
+						<path d="M7.97 6.28a.75.75 0 0 1 1.06-1.06l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 1 1-1.06-1.06l.97-.97H2.75a.75.75 0 0 1 0-1.5h6.19l-.97-.97Z" />
+					</svg>
+					Sign out
+				</a>
+			</div>
+		</div>
+	</div>
+}
