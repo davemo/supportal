@@ -8,17 +8,48 @@ templ Layout(title string, showNav bool, user UserProfile) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <title>{ title } - Supportal</title>
             <link rel="stylesheet" href="/assets/css/style.css"/>
-            <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-            <script src="https://unpkg.com/alpinejs" defer></script>
-            <style>[x-cloak] { display: none !important; }</style>
+            <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+            <style>
+                /* Show backdrop when disclosure is open */
+                #mobile-menu:not([hidden]) ~ #mobile-menu-backdrop {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+                /* Hide nav indicators by default */
+                .nav-indicator {
+                    display: none;
+                }
+                /* Show indicator for active nav item */
+                .nav-item[data-active="true"] .nav-indicator {
+                    display: block;
+                }
+                /* Highlight active mobile nav item */
+                .nav-item[data-active="true"] {
+                    background-color: rgb(249 250 251);
+                    color: rgb(17 24 39);
+                }
+                .dark .nav-item[data-active="true"] {
+                    background-color: rgb(39 39 42);
+                    color: rgb(255 255 255);
+                }
+            </style>
+            <script>
+                // Highlight current page in navigation
+                document.addEventListener('DOMContentLoaded', function() {
+                    const currentPath = window.location.pathname;
+                    const navItems = document.querySelectorAll('.nav-item');
+
+                    navItems.forEach(item => {
+                        const href = item.getAttribute('href');
+                        if (href === currentPath) {
+                            item.setAttribute('data-active', 'true');
+                        }
+                    });
+                });
+            </script>
         </head>
         <body>
-            <div x-data="{ 
-                mobileMenuOpen: false,
-                isCurrentPage(href) {
-                    return window.location.pathname === href
-                }
-            }" class="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
+            <div class="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
                 if showNav {
                     <!-- Desktop Sidebar -->
                     <div class="fixed inset-y-0 left-0 w-64 max-lg:hidden">
@@ -30,68 +61,56 @@ templ Layout(title string, showNav bool, user UserProfile) {
                             <div class="flex flex-1 flex-col overflow-y-auto p-4 [&>[data-slot=section]+[data-slot=section]]:mt-8">
                                 <!-- Desktop Navigation -->
                                 <div data-slot="section" class="flex flex-col gap-0.5">
-                                    <span class="relative">
-                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/dashboard')" x-cloak></span>
-                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/dashboard">
+                                    <a class="nav-item relative group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/dashboard">
+                                        <span class="nav-indicator absolute inset-y-2 -left-6 w-0.5 rounded-full bg-zinc-950 dark:bg-white"></span>
                                             <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
                                                 <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd"></path>
                                             </svg>
                                             <span class="truncate">Home</span>
-                                        </a>
-                                    </span>
-                                    <span class="relative">
-                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/tickets')" x-cloak></span>
-                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/tickets">
+                                    </a>
+                                    <a class="nav-item relative group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/tickets">
+                                        <span class="nav-indicator absolute inset-y-2 -left-6 w-0.5 rounded-full bg-zinc-950 dark:bg-white"></span>
                                             <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
                                                 <path d="M10.362 1.093a.75.75 0 0 0-.724 0L2.648 5.066a.75.75 0 0 0 0 1.32l6.5 3.577a.75.75 0 0 0 .72 0l6.5-3.577a.75.75 0 0 0 0-1.32l-6.006-3.973Z" />
                                                 <path d="M2.648 8.462a.75.75 0 0 0-1.14.646v5.392a.75.75 0 0 0 .372.648l6.5 3.577a.75.75 0 0 0 .72 0l6.5-3.577a.75.75 0 0 0 .372-.648V9.108a.75.75 0 0 0-1.14-.646l-5.553 3.254a2.75 2.75 0 0 1-2.778 0L2.648 8.462Z" />
                                             </svg>
                                             <span class="truncate">Tickets</span>
-                                        </a>
-                                    </span>
-                                    <span class="relative">
-                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/customers')" x-cloak></span>
-                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/customers">
+                                    </a>
+                                    <a class="nav-item relative group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/customers">
+                                        <span class="nav-indicator absolute inset-y-2 -left-6 w-0.5 rounded-full bg-zinc-950 dark:bg-white"></span>
                                             <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
                                                 <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
                                             </svg>
                                             <span class="truncate">Customers</span>
-                                        </a>
-                                    </span>
-                                    <span class="relative">
-                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/knowledge-base')" x-cloak></span>
-                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/knowledge-base">
+                                    </a>
+                                    <a class="nav-item relative group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/knowledge-base">
+                                        <span class="nav-indicator absolute inset-y-2 -left-6 w-0.5 rounded-full bg-zinc-950 dark:bg-white"></span>
                                             <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
                                                 <path d="M10.75 16.82A7.462 7.462 0 0 1 15 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0 0 18 15.06v-11a.75.75 0 0 0-.546-.721A9.006 9.006 0 0 0 15 3a8.963 8.963 0 0 0-4.25 1.065V16.82ZM9.25 4.065A8.963 8.963 0 0 0 5 3c-.85 0-1.673.118-2.454.339A.75.75 0 0 0 2 4.06v11a.75.75 0 0 0 .954.721A7.506 7.506 0 0 1 5 15.5c1.579 0 3.042.487 4.25 1.32V4.065Z" />
                                             </svg>
                                             <span class="truncate">Knowledge Base</span>
-                                        </a>
-                                    </span>
-                                    <span class="relative">
-                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/reports')" x-cloak></span>
-                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/reports">
+                                    </a>
+                                    <a class="nav-item relative group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/reports">
+                                        <span class="nav-indicator absolute inset-y-2 -left-6 w-0.5 rounded-full bg-zinc-950 dark:bg-white"></span>
                                             <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
                                                 <path d="M12 9a1 1 0 0 1-1-1V3c0-.553.45-1.008.997-.93a7.004 7.004 0 0 1 5.933 5.933c.078.547-.378.997-.93.997h-5Z" />
                                                 <path d="M8.003 4.07C8.55 3.992 9 4.447 9 5v5a1 1 0 0 0 1 1h5c.552 0 1.008.45.93.997A7.001 7.001 0 0 1 2 11a7.002 7.002 0 0 1 6.003-6.93Z" />
                                             </svg>
                                             <span class="truncate">Reports</span>
-                                        </a>
-                                    </span>
-                                    <span class="relative">
-                                        <span class="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white" x-show="isCurrentPage('/settings')" x-cloak></span>
-                                        <a class="group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/settings">
+                                    </a>
+                                    <a class="nav-item relative group flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 transition hover:bg-zinc-950/5 sm:py-2 sm:text-sm/5 dark:text-white dark:hover:bg-white/5" href="/settings">
+                                        <span class="nav-indicator absolute inset-y-2 -left-6 w-0.5 rounded-full bg-zinc-950 dark:bg-white"></span>
                                             <span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-6 shrink-0 text-zinc-500 group-hover:text-zinc-950 dark:text-zinc-400 dark:group-hover:text-white sm:size-5">
                                                 <path fill-rule="evenodd" d="M8.34 1.804A1 1 0 0 1 9.32 1h1.36a1 1 0 0 1 .98.804l.295 1.473c.497.144.971.342 1.416.587l1.25-.834a1 1 0 0 1 1.262.125l.962.962a1 1 0 0 1 .125 1.262l-.834 1.25c.245.445.443.919.587 1.416l1.473.294a1 1 0 0 1 .804.98v1.361a1 1 0 0 1-.804.98l-1.473.295a6.95 6.95 0 0 1-.587 1.416l.834 1.25a1 1 0 0 1-.125 1.262l-.962.962a1 1 0 0 1-1.262.125l-1.25-.834a6.953 6.953 0 0 1-1.416.587l-.294 1.473a1 1 0 0 1-.98.804H9.32a1 1 0 0 1-.98-.804l-.295-1.473a6.957 6.957 0 0 1-1.416-.587l-1.25.834a1 1 0 0 1-1.262-.125l-.962-.962a1 1 0 0 1-.125-1.262l.834-1.25a6.957 6.957 0 0 1-.587-1.416l-1.473-.294A1 1 0 0 1 1 10.68V9.32a1 1 0 0 1 .804-.98l1.473-.295c.144-.497.342-.971.587-1.416l-.834-1.25a1 1 0 0 1 .125-1.262l.962-.962A1 1 0 0 1 5.38 3.032l1.25.834a6.957 6.957 0 0 1 1.416-.587l.294-1.473ZM10 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" clip-rule="evenodd" />
                                             </svg>
                                             <span class="truncate">Settings</span>
-                                        </a>
-                                    </span>
+                                    </a>
                                 </div>
                             </div>
                             <div class="max-lg:hidden flex flex-col border-t border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5">
@@ -103,16 +122,15 @@ templ Layout(title string, showNav bool, user UserProfile) {
                     <!-- Mobile Header -->
                     <header class="flex items-center px-4 lg:hidden">
                         <div class="py-2.5">
-                            <button 
-                                @click="mobileMenuOpen = !mobileMenuOpen"
+                            <button
+                                command="--toggle"
+                                commandfor="mobile-menu"
+                                type="button"
                                 class="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
                                 aria-label="Toggle navigation"
                             >
-                                <svg x-show="!mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                                </svg>
-                                <svg x-show="mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
                             </button>
                         </div>
@@ -122,15 +140,17 @@ templ Layout(title string, showNav bool, user UserProfile) {
                     </header>
 
                     <!-- Mobile Sidebar -->
-                    <div 
-                        x-cloak
-                        class="fixed inset-y-0 w-full max-w-80 p-2 z-50 transition duration-300 ease-in-out"
-                        :class="mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'"
+                    <el-disclosure
+                        id="mobile-menu"
+                        hidden
+                        class="fixed inset-y-0 w-full max-w-80 p-2 z-50 transition duration-300 ease-in-out data-closed:-translate-x-full"
                     >
                         <div class="flex h-full flex-col rounded-lg bg-white ring-1 shadow-xs ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10">
                             <div class="-mb-3 px-4 pt-3">
-                                <button 
-                                    @click="mobileMenuOpen = false"
+                                <button
+                                    command="--hide"
+                                    commandfor="mobile-menu"
+                                    type="button"
                                     class="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
                                     aria-label="Close navigation"
                                 >
@@ -145,22 +165,22 @@ templ Layout(title string, showNav bool, user UserProfile) {
                             })
                             <nav class="flex-1 px-2 pt-4">
                                 <div class="space-y-1">
-                                    <a href="/dashboard" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/dashboard')" x-cloak>
+                                    <a href="/dashboard" class="nav-item text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                                         Home
                                     </a>
-                                    <a href="/tickets" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/tickets')" x-cloak>
+                                    <a href="/tickets" class="nav-item text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                                         Tickets
                                     </a>
-                                    <a href="/customers" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/customers')" x-cloak>
+                                    <a href="/customers" class="nav-item text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                                         Customers
                                     </a>
-                                    <a href="/knowledge-base" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/knowledge-base')" x-cloak>
+                                    <a href="/knowledge-base" class="nav-item text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                                         Knowledge Base
                                     </a>
-                                    <a href="/reports" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/reports')" x-cloak>
+                                    <a href="/reports" class="nav-item text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                                         Reports
                                     </a>
-                                    <a href="/settings" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md" x-show="isCurrentPage('/settings')" x-cloak>
+                                    <a href="/settings" class="nav-item text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                                         Settings
                                     </a>
                                 </div>
@@ -169,15 +189,17 @@ templ Layout(title string, showNav bool, user UserProfile) {
                                 @SidebarFooter(user)
                             </div>
                         </div>
-                    </div>
+                    </el-disclosure>
 
                     <!-- Backdrop -->
-                    <div 
-                        x-cloak
-                        @click="mobileMenuOpen = false"
-                        class="fixed inset-0 bg-black/30 lg:hidden transition-opacity duration-300 ease-in-out"
-                        :class="mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'"
-                    ></div>
+                    <button
+                        id="mobile-menu-backdrop"
+                        command="--hide"
+                        commandfor="mobile-menu"
+                        type="button"
+                        class="fixed inset-0 bg-black/30 lg:hidden transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none"
+                        aria-label="Close menu"
+                    ></button>
                 }
 
                 <!-- Main Content -->

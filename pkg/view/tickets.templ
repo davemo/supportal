@@ -1,0 +1,61 @@
+package view
+
+templ Tickets(email string, name string, avatarURL string) {
+    @Layout("Tickets", true, UserProfile{
+        Name: name,
+        Email: email,
+        AvatarURL: avatarURL,
+    }) {
+        <div class="bg-white dark:bg-zinc-900 rounded-lg">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Support Tickets</h1>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage and respond to customer support requests</p>
+            </div>
+            
+            <div class="p-6">
+                <!-- Placeholder ticket list -->
+                <div class="space-y-4">
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-900 dark:text-white">#1234 - Cannot login to account</h3>
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">John Doe • Opened 2 hours ago</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                                High
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-900 dark:text-white">#1233 - Feature request: Dark mode</h3>
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Jane Smith • Opened 5 hours ago</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                Medium
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-900 dark:text-white">#1232 - Question about pricing</h3>
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Mike Johnson • Opened 1 day ago</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                Low
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                    This is placeholder content. Real ticket data would be loaded from the database.
+                </div>
+            </div>
+        </div>
+    }
+}

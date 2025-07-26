@@ -7,13 +7,9 @@ type TeamProfile struct {
 
 templ SidebarHeader(team TeamProfile) {
 	<div class="flex flex-col border-b border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5">
-		<div
-			x-data="{ open: false }"
-			@click.away="open = false"
-			class="relative"
-		>
+		<el-dropdown class="relative">
 			<button
-				@click="open = !open"
+				type="button"
 				class="cursor-default flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 sm:py-2 sm:text-sm/5 *:data-[slot=icon]:size-6 *:data-[slot=icon]:shrink-0 *:data-[slot=icon]:fill-zinc-500 sm:*:data-[slot=icon]:size-5 *:last:data-[slot=icon]:ml-auto *:last:data-[slot=icon]:size-5 sm:*:last:data-[slot=icon]:size-4 *:data-[slot=avatar]:-m-0.5 *:data-[slot=avatar]:size-7 *:data-[slot=avatar]:[--ring-opacity:10%] sm:*:data-[slot=avatar]:size-6 data-hover:bg-zinc-950/5 data-hover:*:data-[slot=icon]:fill-zinc-950 data-active:bg-zinc-950/5 data-active:*:data-[slot=icon]:fill-zinc-950 data-current:*:data-[slot=icon]:fill-zinc-950 dark:text-white dark:*:data-[slot=icon]:fill-zinc-400 dark:data-hover:bg-white/5 dark:data-hover:*:data-[slot=icon]:fill-white dark:data-active:bg-white/5 dark:data-active:*:data-[slot=icon]:fill-white dark:data-current:*:data-[slot=icon]:fill-white"
 			>
 				<span class="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden" aria-hidden="true"></span>
@@ -32,11 +28,10 @@ templ SidebarHeader(team TeamProfile) {
 				</svg>
 			</button>
 
-			<!-- Dropdown menu -->
-			<div
-				x-cloak
-				class="absolute top-full left-0 z-10 mt-2 w-64 rounded-xl p-1 bg-white/75 backdrop-blur-xl dark:bg-zinc-800/75 ring-1 shadow-lg ring-zinc-950/10 dark:ring-white/10 dark:ring-inset transition-all duration-200 ease-out"
-				:class="{ 'invisible translate-y-1 opacity-0': !open, 'visible translate-y-0 opacity-100': open }"
+			<el-menu 
+				anchor="bottom start" 
+				popover
+				class="w-64 rounded-xl p-1 bg-white/75 backdrop-blur-xl dark:bg-zinc-800/75 ring-1 shadow-lg ring-zinc-950/10 dark:ring-white/10 dark:ring-inset transition transition-discrete [--anchor-gap:--spacing(2)] focus:outline-hidden data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
 			>
 				<a href="/teams/manage" class="group flex items-center gap-2.5 rounded-lg px-3.5 py-2.5 text-sm text-zinc-950 hover:bg-blue-500 hover:text-white dark:text-white sm:px-3 sm:py-1.5">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 text-zinc-500 group-hover:text-white dark:text-zinc-400 sm:h-4 sm:w-4">
@@ -51,7 +46,7 @@ templ SidebarHeader(team TeamProfile) {
 					</svg>
 					Switch team
 				</a>
-			</div>
-		</div>
+			</el-menu>
+		</el-dropdown>
 	</div>
 }

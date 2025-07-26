@@ -1,0 +1,86 @@
+package view
+
+templ KnowledgeBase(email string, name string, avatarURL string) {
+    @Layout("Knowledge Base", true, UserProfile{
+        Name: name,
+        Email: email,
+        AvatarURL: avatarURL,
+    }) {
+        <div class="bg-white dark:bg-zinc-900 rounded-lg">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Knowledge Base</h1>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Documentation and help articles for customers</p>
+            </div>
+            
+            <div class="p-6">
+                <!-- Search bar -->
+                <div class="mb-6">
+                    <input 
+                        type="text" 
+                        placeholder="Search articles..." 
+                        class="block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-zinc-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2"
+                    />
+                </div>
+                
+                <!-- Categories -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center mb-3">
+                            <svg class="h-8 w-8 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <h3 class="ml-3 text-lg font-medium text-gray-900 dark:text-white">Getting Started</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Learn the basics and get up and running quickly</p>
+                        <p class="mt-2 text-xs text-gray-500 dark:text-gray-500">12 articles</p>
+                    </div>
+                    
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center mb-3">
+                            <svg class="h-8 w-8 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                            <h3 class="ml-3 text-lg font-medium text-gray-900 dark:text-white">Troubleshooting</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Common issues and how to resolve them</p>
+                        <p class="mt-2 text-xs text-gray-500 dark:text-gray-500">24 articles</p>
+                    </div>
+                    
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center mb-3">
+                            <svg class="h-8 w-8 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            </svg>
+                            <h3 class="ml-3 text-lg font-medium text-gray-900 dark:text-white">API Reference</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Complete API documentation for developers</p>
+                        <p class="mt-2 text-xs text-gray-500 dark:text-gray-500">18 articles</p>
+                    </div>
+                </div>
+                
+                <!-- Popular Articles -->
+                <div>
+                    <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Popular Articles</h2>
+                    <div class="space-y-3">
+                        <a href="#" class="block p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800">
+                            <h3 class="text-sm font-medium text-gray-900 dark:text-white">How to reset your password</h3>
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Step-by-step guide to resetting your account password</p>
+                        </a>
+                        <a href="#" class="block p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800">
+                            <h3 class="text-sm font-medium text-gray-900 dark:text-white">Understanding billing cycles</h3>
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Learn how our billing system works and when you'll be charged</p>
+                        </a>
+                        <a href="#" class="block p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800">
+                            <h3 class="text-sm font-medium text-gray-900 dark:text-white">Integrating with third-party services</h3>
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Connect your account with popular tools and services</p>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                    This is placeholder content. Real articles would be loaded from the database.
+                </div>
+            </div>
+        </div>
+    }
+}

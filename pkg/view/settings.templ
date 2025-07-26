@@ -1,0 +1,172 @@
+package view
+
+templ Settings(email string, name string, avatarURL string) {
+    @Layout("Settings", true, UserProfile{
+        Name: name,
+        Email: email,
+        AvatarURL: avatarURL,
+    }) {
+        <div class="bg-white dark:bg-zinc-900 rounded-lg">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Settings</h1>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage your account and application preferences</p>
+            </div>
+            
+            <div class="p-6">
+                <!-- Settings Navigation -->
+                <div class="flex space-x-8 border-b border-gray-200 dark:border-gray-700 mb-6">
+                    <button class="pb-4 text-sm font-medium text-gray-900 dark:text-white border-b-2 border-indigo-500">
+                        General
+                    </button>
+                    <button class="pb-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        Notifications
+                    </button>
+                    <button class="pb-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        Security
+                    </button>
+                    <button class="pb-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                        Integrations
+                    </button>
+                </div>
+                
+                <!-- General Settings -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Profile Information</h3>
+                        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                            <div>
+                                <label for="first-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    First name
+                                </label>
+                                <input 
+                                    type="text" 
+                                    name="first-name" 
+                                    id="first-name" 
+                                    value="Admin" 
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-zinc-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2"
+                                />
+                            </div>
+                            
+                            <div>
+                                <label for="last-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Last name
+                                </label>
+                                <input 
+                                    type="text" 
+                                    name="last-name" 
+                                    id="last-name" 
+                                    value="User" 
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-zinc-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2"
+                                />
+                            </div>
+                            
+                            <div class="sm:col-span-2">
+                                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Email address
+                                </label>
+                                <input 
+                                    type="email" 
+                                    name="email" 
+                                    id="email" 
+                                    value={ email } 
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-zinc-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2"
+                                />
+                            </div>
+                            
+                            <div class="sm:col-span-2">
+                                <label for="timezone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Timezone
+                                </label>
+                                <select 
+                                    id="timezone" 
+                                    name="timezone" 
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-zinc-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2"
+                                >
+                                    <option>Pacific Time (US & Canada)</option>
+                                    <option>Mountain Time (US & Canada)</option>
+                                    <option>Central Time (US & Canada)</option>
+                                    <option>Eastern Time (US & Canada)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Application Preferences</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <label for="dark-mode" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Dark Mode
+                                    </label>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                        Use dark theme across the application
+                                    </p>
+                                </div>
+                                <button 
+                                    type="button" 
+                                    class="bg-gray-200 dark:bg-zinc-700 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                                    role="switch" 
+                                    aria-checked="false"
+                                >
+                                    <span class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <label for="email-notifications" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Email Notifications
+                                    </label>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                        Receive email updates for new tickets
+                                    </p>
+                                </div>
+                                <button 
+                                    type="button" 
+                                    class="bg-indigo-600 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                                    role="switch" 
+                                    aria-checked="true"
+                                >
+                                    <span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <label for="auto-assign" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Auto-assign Tickets
+                                    </label>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                        Automatically assign new tickets to available agents
+                                    </p>
+                                </div>
+                                <button 
+                                    type="button" 
+                                    class="bg-indigo-600 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                                    role="switch" 
+                                    aria-checked="true"
+                                >
+                                    <span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
+                        <button type="button" class="bg-white dark:bg-zinc-800 py-2 px-4 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Cancel
+                        </button>
+                        <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Save changes
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                    This is placeholder content. Settings would be saved to the database.
+                </div>
+            </div>
+        </div>
+    }
+}

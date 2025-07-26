@@ -8,13 +8,9 @@ type UserProfile struct {
 
 templ SidebarFooter(user UserProfile) {
 	<div class="max-lg:hidden">
-		<div
-			x-data="{ open: false }"
-			@click.away="open = false"
-			class="relative"
-		>
+		<el-dropdown class="relative">
 			<button
-				@click="open = !open"
+				type="button"
 				class="group flex w-full items-center gap-3 rounded-md px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-white text-left"
 			>
 				<span class="flex min-w-0 items-center gap-3">
@@ -36,18 +32,16 @@ templ SidebarFooter(user UserProfile) {
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 16 16"
 					fill="currentColor"
-					class="h-4 w-4 shrink-0 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400 transition-transform duration-200"
-					:class="{ 'rotate-180': open }"
+					class="h-4 w-4 shrink-0 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-400"
 				>
 					<path fill-rule="evenodd" d="M4.22 10.78a.75.75 0 0 1-1.06-1.06l4.25-4.25a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1-1.06 1.06L8 7.12 4.22 10.78Z" clip-rule="evenodd" />
 				</svg>
 			</button>
 
-			<!-- Dropdown menu -->
-			<div
-				x-cloak
-				class="absolute bottom-full left-0 z-10 mb-2 w-64 rounded-xl p-1 bg-white/75 backdrop-blur-xl dark:bg-zinc-800/75 ring-1 shadow-lg ring-zinc-950/10 dark:ring-white/10 dark:ring-inset transition-all duration-200 ease-out"
-				:class="{ 'invisible translate-y-1 opacity-0': !open, 'visible translate-y-0 opacity-100': open }"
+			<el-menu 
+				anchor="top start" 
+				popover
+				class="w-64 rounded-xl p-1 bg-white/75 backdrop-blur-xl dark:bg-zinc-800/75 ring-1 shadow-lg ring-zinc-950/10 dark:ring-white/10 dark:ring-inset transition transition-discrete [--anchor-gap:--spacing(2)] focus:outline-hidden data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
 			>
 				<a href="/profile" class="group flex items-center gap-2.5 rounded-lg px-3.5 py-2.5 text-sm text-zinc-950 hover:bg-blue-500 hover:text-white dark:text-white sm:px-3 sm:py-1.5">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-5 w-5 text-zinc-500 group-hover:text-white dark:text-zinc-400 sm:h-4 sm:w-4">
@@ -75,7 +69,7 @@ templ SidebarFooter(user UserProfile) {
 					</svg>
 					Sign out
 				</a>
-			</div>
-		</div>
+			</el-menu>
+		</el-dropdown>
 	</div>
 }

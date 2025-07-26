@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 	"os"
-	
-	_ "github.com/lib/pq"
+
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 
 	"supportal/pkg/auth"
 	"supportal/pkg/db"
@@ -26,7 +26,7 @@ func main() {
 	if dbURL == "" {
 		log.Fatal("DATABASE_URL environment variable is required")
 	}
-	
+
 	dbConn, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		log.Fatal(err)
@@ -62,6 +62,41 @@ func main() {
 	mux.HandleFunc("/dashboard", auth.RequireAuth(queries, func(w http.ResponseWriter, r *http.Request) {
 		user := r.Context().Value("user").(db.User)
 		component := view.Home(user.Email, user.Name.String, user.AvatarUrl.String)
+		component.Render(context.Background(), w)
+	}))
+
+	// Tickets (protected)
+	mux.HandleFunc("/tickets", auth.RequireAuth(queries, func(w http.ResponseWriter, r *http.Request) {
+		user := r.Context().Value("user").(db.User)
+		component := view.Tickets(user.Email, user.Name.String, user.AvatarUrl.String)
+		component.Render(context.Background(), w)
+	}))
+
+	// Customers (protected)
+	mux.HandleFunc("/customers", auth.RequireAuth(queries, func(w http.ResponseWriter, r *http.Request) {
+		user := r.Context().Value("user").(db.User)
+		component := view.Customers(user.Email, user.Name.String, user.AvatarUrl.String)
+		component.Render(context.Background(), w)
+	}))
+
+	// Knowledge Base (protected)
+	mux.HandleFunc("/knowledge-base", auth.RequireAuth(queries, func(w http.ResponseWriter, r *http.Request) {
+		user := r.Context().Value("user").(db.User)
+		component := view.KnowledgeBase(user.Email, user.Name.String, user.AvatarUrl.String)
+		component.Render(context.Background(), w)
+	}))
+
+	// Reports (protected)
+	mux.HandleFunc("/reports", auth.RequireAuth(queries, func(w http.ResponseWriter, r *http.Request) {
+		user := r.Context().Value("user").(db.User)
+		component := view.Reports(user.Email, user.Name.String, user.AvatarUrl.String)
+		component.Render(context.Background(), w)
+	}))
+
+	// Settings (protected)
+	mux.HandleFunc("/settings", auth.RequireAuth(queries, func(w http.ResponseWriter, r *http.Request) {
+		user := r.Context().Value("user").(db.User)
+		component := view.Settings(user.Email, user.Name.String, user.AvatarUrl.String)
 		component.Render(context.Background(), w)
 	}))
 

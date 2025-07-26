@@ -22,3 +22,6 @@ tmp/
 
 # Node modules (if using npm/yarn for frontend tools)
 node_modules/
+
+catalyst-ui-kit
+.DS_Store
